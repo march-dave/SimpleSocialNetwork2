@@ -1,34 +1,40 @@
 'use strict';
 
-var app = angular.module('mybookApp');
+var app = angular.module('authApp');
 
-app.service('MybookService', function($http, $q) {
+app.service('Auth', function($http, $q) {
 
-  this.register = function(user) {
-     return $http.post(`/api/users/register/`, user);
+  this.register = userObj => {
+    return $http.post('/api/users/register', userObj);
   };
-  this.login = user => {
-   return $http.post('/api/users/login', user)
-    .then(res => {
-      return this.getProfile();
-    });
+
+  this.login = userObj => {
+    return $http.post('/api/users/login', userObj)
+      .then(res => {
+        return this.getProfile();
+      });
   };
+
   this.logout = () => {
     return $http.delete('/api/users/logout')
-    .then(res => {
+      .then(res => {
         this.currentUser = null;
         return $q.resolve();
-    });
+      });
   };
+
   this.getProfile = () => {
-   return $http.get('/api/users/profile')
-    .then(res => {
+    return $http.get('/api/users/profile')
+      .then(res => {
         this.currentUser = res.data;
         return $q.resolve(res.data);
-    })
-    .catch(res => {
+      })
+      .catch(res => {
         this.currentUser = null;
         return $q.reject(res.data);
-    });
+      });
   };
+
 });
+
+

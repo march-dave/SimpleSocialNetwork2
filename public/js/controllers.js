@@ -1,31 +1,44 @@
 'use strict';
 
-var app = angular.module('mybookApp');
+var app = angular.module('authApp');
 
-
-app.controller('homeCtrl', function($scope, $q, $http) {
-  // $scope.clients = clientDex;
+app.controller('profileCtrl', function() {
+  console.log('profileCtrl!');
 });
 
-app.controller('mainCtrl', function($scope, $state, MybookService) {
+app.controller('mainCtrl', function($scope, $state, Auth, $auth) {
 
-  $scope.$watch(function() {
-    return MybookService.currentUser;
-  }, function(newVal, oldVal) {
-    $scope.currentUser = newVal;
-  });
+  // $scope.$watch(function() {
+  //   return Auth.currentUser;
+  // }, function(newVal, oldVal) {
+  //   $scope.currentUser = newVal;
+  // });
 
   $scope.logout = () => {
-    MybookService.logout()
-      .then(res => {
-        $state.go('home');
-      })
+    $auth.logout();
+  }
+  $scope.isAuthenticated = () => {
+    return $auth.isAuthenticated();
   }
 });
 
-app.controller('authFormCtrl', function($scope, $state, MybookService) {
+app.controller('homeCtrl', function($scope) {
+  console.log('homeCtrl!');
+});
+
+
+
+app.controller('authFormCtrl', function($scope, $state, Auth, $auth) {
+  console.log('authFormCtrl!');
 
   $scope.currentState = $state.current.name;
+
+  console.log('$auth:', $auth)
+  console.log('$scope.authenticate :', $scope.authenticate)
+
+  $scope.authenticate = provider => {
+    $auth.authenticate(provider);
+  };
 
   $scope.submitForm = () => {
     if($scope.currentState === 'register') {
@@ -38,9 +51,9 @@ app.controller('authFormCtrl', function($scope, $state, MybookService) {
 
         alert('Passwords must match.')
       } else {
-        MybookService.register($scope.user)
+        $auth.signup($scope.user)
           .then(res => {
-            return MybookService.login($scope.user);
+            return $auth.login($scope.user);
           })
           .then(res => {
             $state.go('home');
@@ -50,7 +63,7 @@ app.controller('authFormCtrl', function($scope, $state, MybookService) {
           });
       }
     } else {
-      MybookService.login($scope.user)
+      $auth.login($scope.user)
         .then(res => {
           $state.go('home');
         })
@@ -60,29 +73,4 @@ app.controller('authFormCtrl', function($scope, $state, MybookService) {
     }
   };
 
-});
-
-// app.controller('loginCtrl', function($scope, $state, $http, MybookService, UserService) {
-//
-//   $scope.userLogin = () => {
-//     $scope.loggedIn = false;
-//
-//     console.log("scope.login in userlogin function", $scope.login);
-//     MybookService.login($scope.login)
-//     .then( ( res )  => {
-//
-//       UserService.set(res.data);
-//       $scope.loggedIn = true;
-//       $state.go("profile", {"user": res.data});
-//     })
-//     .catch(err => {
-//       console.log('err', err.data);
-//     });
-//   }
-//
-// });
-//
-app.controller('profileCtrl', function($scope, $state, $q, $http) {
-    var t = $state.params.user;
-    // console.log('t: ', t);
 });

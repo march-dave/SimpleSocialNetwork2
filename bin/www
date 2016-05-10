@@ -7,7 +7,7 @@
 require('dotenv').config();
 
 var app = require('../app');
-var debug = require('debug')('SimpleSocialNetwork:server');
+var debug = require('debug')('SimpleSocialNetwork2');
 var http = require('http');
 
 /**

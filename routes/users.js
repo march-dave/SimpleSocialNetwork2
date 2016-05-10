@@ -11,7 +11,6 @@ router.get('/', (req, res) => {
 
 //   /api/users/register
 router.post('/register', (req, res) => {
-
   User.register(req.body, err => {
     res.status(err ? 400 : 200).send(err);
   });
@@ -23,12 +22,6 @@ router.post('/login', (req, res) => {
 
     res.cookie('accessToken', token).send(token);
   });
-  
-  // User.authenticate(req.body, (err, data) => {
-  //   if(err) return res.status(400).send(err);
-  //
-  //   res.cookie('accessToken', data.token).send(data.dbUser);
-  // });
 });
 
 router.delete('/logout', (req, res) => {
@@ -37,8 +30,7 @@ router.delete('/logout', (req, res) => {
 
 // /api/users/profile
 router.get('/profile', User.isLoggedIn, (req, res) => {
-  console.log('req.user:', req.user);
   res.send(req.user);
-})
+});
 
 module.exports = router;
