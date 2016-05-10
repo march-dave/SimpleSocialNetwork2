@@ -1,0 +1,23 @@
+{
+  "name": "SimpleSocialNetwork2",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Dave Lee <ysangy@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/march-dave/SimpleSocialNetwork2",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.5",
+    "angular-ui-router": "^0.2.18",
+    "bootstrap": "^3.3.6"
+  }
+}
