@@ -26,8 +26,6 @@ app.controller('homeCtrl', function($scope) {
   console.log('homeCtrl!');
 });
 
-
-
 app.controller('authFormCtrl', function($scope, $state, Auth, $auth) {
   console.log('authFormCtrl!');
 
